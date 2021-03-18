@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="alert alert-danger" role="alert">
+        Are you sure uou want to delete post of title {{object.title}}!
+        <button type="submit" class="btn btn-danger">Yes</button><a href="{{object.get_absolute_url}}" class="btn btn-outline-secondary">No</a>
+    </div>
+</form>
+{% endblock content %}

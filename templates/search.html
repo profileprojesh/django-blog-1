@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css%}
+<link rel="stylesheet" href="{% static '/css/home.css' %}">
+{% endblock css%}
+{% block content %}
+<h3>Search Page</h3>
+<div class="card-container container">
+    {% if posts|length > 0%}
+    {% for post in posts %}
+    <section class="card">
+        <h3>{{ post.title}}</h3>
+        <div class="image">
+            <img src="{{ post.image.url }}" alt="" class="post-image">
+        </div>
+        <p class="date">{{ post.date_created }}</p>
+        <p>{{ post.content|truncatewords:'25' }}</p>
+        <div class="bottom-content">
+            <a href="{% url 'each-post' post.slug %}">Read More</a>
+            <div class="author">
+                <img src="{{ post.author.profile.image.url }}" class="rounded-circle" alt="">
+                <a href="">
+                    <h5>{{ post.author }}</h5>
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endfor %}<div class="card-container container">
+        {% for post in page_obj %}
+        <section class="card">
+            <h3>{{ post.title}}</h3>
+            <div class="image">
+                <img src="{{ post.image.url }}" alt="" class="post-image">
+            </div>
+            <p class="date">{{ post.date_created }}</p>
+            <p>{{ post.content|truncatewords:'25' }}</p>
+            <div class="bottom-content">
+                <a href="{% url 'each-post' post.slug %}">Read More</a>
+                <div class="author">
+                    <img src="{{ post.author.profile.image.url }}" class="rounded-circle" alt="">
+                    <a href="">
+                        <h5>{{ post.author }}</h5>
+                    </a>
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+        {% else %}{
+            <h3>No Reasults found. Please try using different keywords</h3>
+        }
+
+    {% endif %}
+
+
+        {% endblock content %}

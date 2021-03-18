@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load template_tag_1 %}
+{% block content %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static '/css/home.css' %}">
+{% endblock css%}
+<div class="card-holder">
+  <section class="card">
+    <h3>{{ object.title}}</h3>
+    <img src="{{ object.image.url }}" alt="">
+    <p class="date">{{ object.date_created }}</p>
+    <p>{{ object.content }}</p>
+    {% if is_valid_author %}
+    <div class="d-inline">
+    <a href="{% url 'update-post' object.slug %}" class="btn btn-outline-info">Update</a>
+    <a href="{% url 'delete-post' object.slug %}" class="btn btn-outline-danger ml-4">Delete</a>
+  </div>
+    {% endif %}
+    <div class="bottom-content mb-4">
+      <a href="{% url 'home' %}"><h3>Back</h3></a>
+      <div class="author">
+        <img src="{{ object.author.profile.image.url }}" class="rounded-circle" alt="">
+        <a href="">
+          <h4>{{ object.author }}</h4>
+        </a>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css%}
+<link rel="stylesheet" href="{% static '/css/home.css' %}">
+{% endblock css%}
+{% block content %}
+<div class="card-container container">
+    {% for post in page_obj %}
+    <section class="card">
+        <h3>{{ post.title}}</h3>
+        <div class="image">
+            <img src="{{ post.image.url }}" alt="" class="post-image">
+        </div>
+        <p class="date">{{ post.date_created }}</p>
+        <p>{{ post.content|truncatewords:'25' }}</p>
+        <div class="bottom-content">
+            <a href="{% url 'each-post' post.slug %}">Read More</a>
+            <div class="author">
+                <img src="{{ post.author.profile.image.url }}" class="rounded-circle" alt="">
+                <a href="">
+                    <h5>{{ post.author }}</h5>
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+
+</div>
+
+<!-- logic for pagination  -->
+{% if is_paginated %}
+{% if page_obj.has_previous%}
+<a href="?page=1" class="btn btn-outline-primary">First</a>
+<a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary">Previous</a>
+{% endif %}
+
+{% for num in page_obj.paginator.page_range %}
+{% if page_obj.number == num %}
+<a href="?page={{num}}" class="btn btn-primary">{{num}}</a>
+
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'  %}
+<a href="?page={{num}}" class="btn btn-outline-primary">{{ num }}</a>
+
+{% endif %}
+{% endfor %}
+
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary">Next</a>
+<a href="?page={{ page_obj.paginator.num_pages }}" class="btn btn-outline-primary">Last</a>
+{% endif %}
+
+{% endif %}
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}
